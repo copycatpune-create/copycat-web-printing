@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>Admin Portal - Copycat Copiers Web Printing Manager</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="vendor/qrcode.min.js"></script>
+</head>
+<body style="background: #f1f3f4;">
+
+  <!-- Admin Header -->
+  <header class="admin-navbar">
+    <div class="admin-nav-container">
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <div class="brand-logo-badge" style="width: 38px; height: 38px;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z" fill="#4285F4"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size: 1.1rem; font-weight: 700; color: white;">
+            Copycat Copiers
+            <span style="font-size: 0.75rem; background: rgba(255,255,255,0.15); padding: 2px 8px; border-radius: 12px; margin-left: 6px;">Admin Spooler</span>
+          </div>
+          <div style="font-size: 0.75rem; color: #9aa0a6;">Connected to Local Windows Print Subsystem</div>
+        </div>
+      </div>
+
+      <div id="adminNavTabs" class="admin-nav-tabs" style="display: none;">
+        <button class="admin-tab-btn active" data-tab="tabOrders">
+          📋 Orders Queue <span id="navPendingBadge" style="background: #ea4335; color: white; border-radius: 10px; padding: 1px 7px; font-size: 0.72rem; margin-left: 4px; display: none;">0</span>
+        </button>
+        <button class="admin-tab-btn" data-tab="tabPrinters">
+          🖨️ Printer Hardware
+        </button>
+        <button class="admin-tab-btn" data-tab="tabRates">
+          💰 Rate Card
+        </button>
+        <button class="admin-tab-btn" data-tab="tabQrStand">
+          📱 QR Standee
+        </button>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <button id="btnAudioToggle" class="btn btn-sm audio-btn-on" title="Click to mute/unmute new order chime sound">
+          <span class="chime-pulse-dot" id="chimePulseDot"></span>
+          <span id="btnAudioToggleText">🔔 Chime: ON</span>
+        </button>
+        <button id="btnEnableDesktopNotif" class="btn btn-outline btn-sm" style="display: none; background: rgba(255,255,255,0.1); color: #fbbc05; border-color: rgba(255,255,255,0.25);" title="Enable system desktop alerts for orders">
+          📢 Desktop Alerts
+        </button>
+        <button id="btnAdminLogout" class="btn btn-outline btn-sm" style="background: rgba(255,255,255,0.1); color: #f28b82; border-color: rgba(255,255,255,0.2); display: none;">
+          🚪 Logout
+        </button>
+        <a href="/" target="_blank" class="btn btn-outline btn-sm" style="background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2);">
+          Customer View ↗
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Admin Authentication Section (Shown when logged out) -->
+  <div id="adminLoginSection" style="max-width: 420px; margin: 4.5rem auto; background: white; border-radius: 18px; padding: 2.5rem 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #dadce0; position: relative; overflow: hidden;">
+    <div style="position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #4285F4 25%, #EA4335 25% 50%, #FBBC05 50% 75%, #34A853 75%);"></div>
+
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <div class="brand-logo-badge" style="width: 52px; height: 52px; margin: 0 auto 1rem;">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+          <path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z" fill="#4285F4"/>
+        </svg>
+      </div>
+      <h2 style="font-size: 1.5rem; font-weight: 800; color: #202124;">Admin Portal Sign In</h2>
+      <p style="font-size: 0.85rem; color: #5f6368; margin-top: 0.25rem;">Copycat Copiers • Hardware & Print Manager</p>
+    </div>
+
+    <div id="loginErrorMsg" style="display: none; background: #fce8e6; border-left: 4px solid #ea4335; color: #c5221f; padding: 0.75rem 1rem; border-radius: 6px; font-size: 0.85rem; margin-bottom: 1.25rem; font-weight: 500;"></div>
+
+    <form id="adminLoginForm" onsubmit="event.preventDefault(); submitAdminLogin();">
+      <div style="margin-bottom: 1.25rem;">
+        <label style="display: block; font-size: 0.82rem; font-weight: 700; color: #5f6368; text-transform: uppercase; margin-bottom: 0.4rem;">
+          Username
+        </label>
+        <input type="text" id="loginUsername" required autocomplete="username" placeholder="Enter username" style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #dadce0; border-radius: 10px; font-size: 0.95rem; outline: none;">
+      </div>
+
+      <div style="margin-bottom: 1.75rem;">
+        <label style="display: block; font-size: 0.82rem; font-weight: 700; color: #5f6368; text-transform: uppercase; margin-bottom: 0.4rem;">
+          Password
+        </label>
+        <input type="password" id="loginPassword" required autocomplete="current-password" placeholder="Enter password" style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #dadce0; border-radius: 10px; font-size: 0.95rem; outline: none;">
+      </div>
+
+      <button type="submit" id="btnLoginSubmit" class="btn btn-primary btn-lg" style="width: 100%; box-shadow: 0 2px 6px rgba(26,115,232,0.3);">
+        Sign In
+      </button>
+    </form>
+  </div>
+
+  <!-- Authenticated Main Dashboard Content -->
+  <main id="adminMainContent" class="main-content" style="max-width: 1300px; display: none;">
+
+    <!-- Top Metrics Overview -->
+    <div class="admin-stats-bar">
+      <div class="stat-card">
+        <div class="stat-icon" style="background: #fef7e0; color: #b06000;">⏳</div>
+        <div>
+          <div class="stat-val" id="statPendingCount">0</div>
+          <div class="stat-lbl">Pending Approval</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" style="background: #e8f0fe; color: #1a73e8;">🖨️</div>
+        <div>
+          <div class="stat-val" id="statPrintingCount">0</div>
+          <div class="stat-lbl">Printing in Progress</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" style="background: #e6f4ea; color: #137333;">✓</div>
+        <div>
+          <div class="stat-val" id="statCompletedCount">0</div>
+          <div class="stat-lbl">Completed Orders</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" style="background: #fce8e6; color: #c5221f;">₹</div>
+        <div>
+          <div class="stat-val" id="statTotalRevenue">₹0.00</div>
+          <div class="stat-lbl">Total Billing</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" style="background: #f1f3f4; color: #3c4043;">🔌</div>
+        <div>
+          <div class="stat-val" id="statPrintersOnline">0</div>
+          <div class="stat-lbl">Local Printers Found</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 1: ORDERS QUEUE -->
+    <div id="tabOrders" class="admin-tab-content">
+      
+      <!-- Filter Bar -->
+      <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 0.85rem 1.25rem; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <button class="btn btn-primary btn-sm order-filter-btn active" data-filter="all">All Orders</button>
+          <button class="btn btn-outline btn-sm order-filter-btn" data-filter="pending_approval">Pending Approval</button>
+          <button class="btn btn-outline btn-sm order-filter-btn" data-filter="printing">Printing</button>
+          <button class="btn btn-outline btn-sm order-filter-btn" data-filter="ready_for_pickup">Ready for Pickup</button>
+          <button class="btn btn-outline btn-sm order-filter-btn" data-filter="completed">Completed</button>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+          <input type="text" id="adminSearchInput" placeholder="Search by customer name or phone..." style="padding: 0.4rem 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.85rem; width: 220px;">
+          <button id="btnRefreshOrders" class="btn btn-outline btn-sm">
+            ↻ Refresh
+          </button>
+          <button id="btnClearAllOrders" class="btn btn-outline btn-sm" style="color: #d93025; border-color: #f28b82; background: #fdf2f2;" title="Permanently clear all orders and delete uploaded files from disk">
+            🗑️ Clear All Orders
+          </button>
+        </div>
+      </div>
+
+      <!-- Orders List Container -->
+      <div id="adminOrdersContainer">
+        <!-- Rendered via JS -->
+      </div>
+
+    </div>
+
+    <!-- TAB 2: PRINTER MANAGEMENT -->
+    <div id="tabPrinters" class="admin-tab-content" style="display: none;">
+      
+      <!-- Default Printer Configuration Card -->
+      <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow-sm);">
+        <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.5rem;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4285F4" stroke-width="2"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+          Default Printer Assignment
+        </h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+          Define standard default printers for Black & White jobs and Color jobs. During print approval, you can still override the printer for any specific order if a machine is busy or out of toner.
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+          
+          <!-- B&W Default -->
+          <div style="background: #f8f9fa; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem;">
+            <label style="display: block; font-weight: 700; font-size: 0.95rem; margin-bottom: 0.4rem; color: #202124;">
+              Default Black & White Printer
+            </label>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.85rem;">
+              Used for high-speed monochrome documents (Canon iR5075, HP LaserJet, etc.)
+            </p>
+            <select id="selDefaultBw" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); font-size: 0.9rem; background: white; outline: none;">
+              <!-- Populated via JS -->
+            </select>
+          </div>
+
+          <!-- Color Default -->
+          <div style="background: #f8f9fa; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem;">
+            <label style="display: block; font-weight: 700; font-size: 0.95rem; margin-bottom: 0.4rem; color: #202124;">
+              Default Color Printer
+            </label>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.85rem;">
+              Used for color documents & graphics (Konica Minolta C308, Canon C5560, Epson L8050, etc.)
+            </p>
+            <select id="selDefaultColor" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); font-size: 0.9rem; background: white; outline: none;">
+              <!-- Populated via JS -->
+            </select>
+          </div>
+
+        </div>
+
+        <div style="margin-top: 1.25rem; display: flex; justify-content: flex-end;">
+          <button id="btnSavePrinterDefaults" class="btn btn-primary">
+            Save Default Printers
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Hardware Printers List -->
+      <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow-sm);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <div>
+            <h3 style="font-size: 1.2rem; font-weight: 700;">Live Installed Windows Printers</h3>
+            <p style="font-size: 0.82rem; color: var(--text-muted);">Printers detected directly through Windows Spooler & Driver Subsystem</p>
+          </div>
+          <button id="btnRefreshPrinters" class="btn btn-outline btn-sm">
+            ↻ Rescan Printers
+          </button>
+        </div>
+
+        <div id="printersGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem;">
+          <!-- Populated via JS -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB 3: RATE CARD -->
+    <div id="tabRates" class="admin-tab-content" style="display: none;">
+      <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.75rem; box-shadow: var(--shadow-sm); max-width: 900px; margin: 0 auto;">
+        <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.35rem;">Manage Copycat Copiers Rate Card</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+          Update rates for all paper sizes and printing specifications. All new customer calculations and admin billing automatically update based on these rates.
+        </p>
+
+        <!-- Rate Inputs Grid -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+          
+          <!-- A4 Rates -->
+          <div style="border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 1.25rem; background: #f8fafd;">
+            <h4 style="font-size: 1.1rem; font-weight: 700; color: #1a73e8; margin-bottom: 1rem; border-bottom: 2px solid #d2e3fc; padding-bottom: 0.5rem;">
+              A4 Paper Rates (₹)
+            </h4>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label style="font-size: 0.9rem; font-weight: 600;">B&W Single Side (per page):</label>
+                <input type="number" id="rate_A4_bw_single" step="0.5" style="width: 100px; padding: 0.4rem; border: 1px solid var(--border-color); border-radius: 6px; text-align: right; font-weight: 700;">
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label style="font-size: 0.9rem; font-weight: 600;">B&W Duplex (per sheet):</label>
+                <input type="number" id="rate_A4_bw_duplex" step="0.5" style="width: 100px; padding: 0.4rem; border: 1px solid var(--border-color); border-radius: 6px; text-align: right; font-weight: 700;">
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label style="font-size: 0.9rem; font-weight: 600;">Color Single Side (per page):</label>
+                <input type="number" id="rate_A4_color_single" step="0.5" style="width: 100px; padding: 0.4rem; border: 1px solid var(--border-color); border-radius: 6px; text-align: right; font-weight: 700;">
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label style="font-size: 0.9rem; font-weight: 600;">Color Duplex (per sheet):</label>
+                <input type="number" id="rate_A4_color_duplex" step="0.5" style="width: 100px; padding: 0.4rem; border: 1px solid var(--border-color); border-radius: 6px; text-align: right; font-weight: 700;">
+              </div>
+            </div>
+          </div>
+
+          <!-- A3 Rates -->
+          <div style="border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 1.25rem; background: #f8fafd;">
+            <h4 style="font-size: 1.1rem; font-weight: 700; color: #1a73e8; margin-bottom: 1rem; border-bottom: 2px solid #d2e3fc; padding-bottom: 0.5rem;">
+              A3 Paper Rates (₹)
+            </h4>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label style="font-size: 0.9rem; font-weight: 600;">B&W Single Side (per page):</label>
+                <input type="number" id="rate_A3_bw_single" step="0.5" style="width: 100px; padding: 0.4rem; border: 1px solid var(--border-color); border-radius: 6px; text-align: right; font-weight: 700;">
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label style="font-size: 0.9rem; font-weight: 600;">B&W Duplex (per sheet):</label>
+                <input type="number" id="rate_A3_bw_duplex" step="0.5" style="width: 100px; padding: 0.4rem; border: 1px solid var(--border-color); border-radius: 6px; text-align: right; font-weight: 700;">
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label style="font-size: 0.9rem; font-weight: 600;">Color Single Side (per page):</label>
+                <input type="number" id="rate_A3_color_single" step="0.5" style="width: 100px; padding: 0.4rem; border: 1px solid var(--border-color); border-radius: 6px; text-align: right; font-weight: 700;">
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label style="font-size: 0.9rem; font-weight: 600;">Color Duplex (per sheet):</label>
+                <input type="number" id="rate_A3_color_duplex" step="0.5" style="width: 100px; padding: 0.4rem; border: 1px solid var(--border-color); border-radius: 6px; text-align: right; font-weight: 700;">
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div style="margin-top: 2rem; display: flex; justify-content: flex-end;">
+          <button id="btnSaveRates" class="btn btn-primary btn-lg">
+            Save Rate Card
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: COUNTER QR STANDEE -->
+    <div id="tabQrStand" class="admin-tab-content" style="display: none;">
+      <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-sm); max-width: 800px; margin: 0 auto; text-align: center;">
+        
+        <h3 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem;">
+          Customer Web Printing QR Standee
+        </h3>
+        <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+          Place this QR poster at your shop front counter. Customers can scan it with any mobile phone to open the Web Printing App and upload files directly!
+        </p>
+
+        <!-- Printable QR Card Preview -->
+        <div id="qrStandCard" style="border: 2px solid #dadce0; border-radius: 20px; padding: 2.5rem 1.5rem; max-width: 420px; margin: 0 auto 1.5rem; background: white; box-shadow: var(--shadow-md); position: relative; overflow: hidden;">
+          
+          <!-- Google Colors top bar -->
+          <div style="position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, #4285F4 25%, #EA4335 25% 50%, #FBBC05 50% 75%, #34A853 75%);"></div>
+
+          <div style="font-size: 0.85rem; font-weight: 700; color: #5f6368; letter-spacing: 0.5px; text-transform: uppercase;">
+            Google Business Profile Verified
+          </div>
+          <h2 style="font-size: 1.7rem; font-weight: 800; color: #202124; margin: 0.4rem 0 0.2rem;">
+            Copycat Copiers
+          </h2>
+          <p style="font-size: 0.9rem; color: #1a73e8; font-weight: 600; margin-bottom: 1.5rem;">
+            Instant Self-Service Mobile Printing
+          </p>
+
+          <!-- Hexagonal Frame Container -->
+          <div style="display: inline-block; padding: 16px; border: 3px solid #4285F4; border-radius: 24px; background: #f8fafd; margin-bottom: 1.25rem;">
+            <div id="adminQrStandContainer" style="display: flex; justify-content: center;"></div>
+          </div>
+
+          <div style="font-size: 0.95rem; font-weight: 700; color: #202124;">
+            Scan to Upload & Print Instantly
+          </div>
+          <p style="font-size: 0.8rem; color: #5f6368; margin-top: 0.25rem;">
+            No cables • No WhatsApp needed • PDF, JPG, PNG
+          </p>
+
+          <div style="background: #f1f3f4; border-radius: 10px; padding: 0.6rem 0.85rem; margin-top: 1.25rem; font-size: 0.85rem; color: #3c4043; text-align: center;">
+            <div>Direct URL: <strong id="adminWebUrlDisplay">http://192.168.1.34:3000</strong></div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: center; gap: 1rem;">
+          <a href="qr-stand.html" target="_blank" class="btn btn-primary btn-lg">
+            Print Counter Poster (A4) 🖨️
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODAL: Document In-Browser Preview Modal -->
+  <div id="docPreviewModal" class="modal-overlay">
+    <div class="modal-dialog" style="max-width: 900px; height: 85vh;">
+      <div class="modal-header">
+        <h3 id="previewDocTitle">Document Preview</h3>
+        <button class="modal-close-btn" id="btnClosePreviewModal">&times;</button>
+      </div>
+      <div class="modal-body" style="padding: 0; background: #525659;">
+        <iframe id="previewIframe" style="width: 100%; height: 100%; border: none;"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Pop-up Notifications Container -->
+  <div id="adminNotificationContainer" class="admin-toast-container"></div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

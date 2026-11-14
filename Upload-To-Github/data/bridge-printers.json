@@ -1,0 +1,216 @@
+{
+  "printers": [
+    {
+      "name": "Wondershare PDFelement",
+      "driverName": "Wondershare PDFelement",
+      "portName": "Wondershare PDFelement Port",
+      "status": "",
+      "isOnline": true,
+      "jobCount": 0,
+      "isShared": false,
+      "paperSizes": [
+        "Letter",
+        "Tabloid",
+        "Ledger",
+        "Legal"
+      ]
+    },
+    {
+      "name": "Print to Evernote",
+      "driverName": "Print to Evernote Driver",
+      "portName": "FOXIT_Evernote:",
+      "status": "",
+      "isOnline": true,
+      "jobCount": 0,
+      "isShared": false,
+      "paperSizes": [
+        "Letter",
+        "Tabloid",
+        "Ledger",
+        "Legal"
+      ]
+    },
+    {
+      "name": "OneNote (Desktop)",
+      "driverName": "Send to Microsoft OneNote 16 Driver",
+      "portName": "nul:",
+      "status": "",
+      "isOnline": true,
+      "jobCount": 0,
+      "isShared": false,
+      "paperSizes": [
+        "Letter",
+        "Tabloid",
+        "Legal",
+        "Executive"
+      ]
+    },
+    {
+      "name": "Microsoft Print to PDF",
+      "driverName": "Microsoft Print To PDF",
+      "portName": "PORTPROMPT:",
+      "status": "",
+      "isOnline": true,
+      "jobCount": 0,
+      "isShared": false,
+      "paperSizes": [
+        "Letter",
+        "Tabloid",
+        "Legal",
+        "Statement"
+      ]
+    },
+    {
+      "name": "KONICA MINOLTA C308",
+      "driverName": "KONICA MINOLTA C368SeriesPCL",
+      "portName": "192.168.1.118",
+      "status": "131072",
+      "isOnline": true,
+      "jobCount": 0,
+      "isShared": false,
+      "paperSizes": [
+        "A0",
+        "A1",
+        "A2",
+        "A3"
+      ]
+    },
+    {
+      "name": "IR 5075",
+      "driverName": "Canon iR5075 PCL5e",
+      "portName": "192.168.1.165_1",
+      "status": "",
+      "isOnline": true,
+      "jobCount": 0,
+      "isShared": false,
+      "paperSizes": [
+        "Letter",
+        "11x17",
+        "Legal",
+        "Statement"
+      ]
+    },
+    {
+      "name": "HP LaserJet",
+      "driverName": "HP LaserJet Professional P1606dn",
+      "portName": "IP_192.168.1.160",
+      "status": "",
+      "isOnline": true,
+      "jobCount": 0,
+      "isShared": false,
+      "paperSizes": [
+        "Letter",
+        "Legal",
+        "A4",
+        "Executive"
+      ]
+    },
+    {
+      "name": "HP DesignJet Smart Tank T908 MFP V4",
+      "driverName": "HP DesignJet Smart Tank T908 MFP V4",
+      "portName": "192.168.1.198",
+      "status": "128",
+      "isOnline": true,
+      "jobCount": 0,
+      "isShared": false,
+      "paperSizes": [
+        "Letter",
+        "Tabloid",
+        "Legal",
+        "A3"
+      ]
+    },
+    {
+      "name": "Foxit PDF Editor Printer",
+      "driverName": "Foxit PDF Editor Printer driver",
+      "portName": "FOXIT_PDF:",
+      "status": "",
+      "isOnline": true,
+      "jobCount": 0,
+      "isShared": false,
+      "paperSizes": [
+        "Letter",
+        "Tabloid",
+        "Ledger",
+        "Legal"
+      ]
+    },
+    {
+      "name": "EPSON   L8050",
+      "driverName": "EPSON L8050 Series",
+      "portName": "USB001",
+      "status": "",
+      "isOnline": true,
+      "jobCount": 0,
+      "isShared": true,
+      "paperSizes": [
+        "A4 210 x 297 mm",
+        "10 x 15 cm (4 x 6 in)",
+        "13 x 18 cm (5 x 7 in)",
+        "A6 105 x 148 mm"
+      ]
+    },
+    {
+      "name": "doPDF v7",
+      "driverName": "doPDF 7 Printer Driver",
+      "portName": "DOP7:",
+      "status": "",
+      "isOnline": true,
+      "jobCount": 0,
+      "isShared": false,
+      "paperSizes": [
+        "Letter",
+        "Letter Small",
+        "Tabloid",
+        "Ledger"
+      ]
+    },
+    {
+      "name": "Canon - C5560",
+      "driverName": "Canon Generic Plus PCL6",
+      "portName": "IP_192.168.1.53",
+      "status": "",
+      "isOnline": true,
+      "jobCount": 0,
+      "isShared": false,
+      "paperSizes": [
+        "Letter",
+        "11x17",
+        "Legal",
+        "Statement"
+      ]
+    },
+    {
+      "name": "ADVANCE 6575",
+      "driverName": "Canon iR-ADV 6575 PCL6",
+      "portName": "WSD-965c5aa0-6734-409c-b825-03ca570f87b1",
+      "status": "",
+      "isOnline": true,
+      "jobCount": 0,
+      "isShared": false,
+      "paperSizes": [
+        "Letter",
+        "11x17",
+        "Legal",
+        "Statement"
+      ]
+    },
+    {
+      "name": "Adobe PDF",
+      "driverName": "Adobe PDF Converter",
+      "portName": "Documents\\*.pdf",
+      "status": "",
+      "isOnline": true,
+      "jobCount": 0,
+      "isShared": false,
+      "paperSizes": [
+        "Letter",
+        "Tabloid",
+        "Ledger",
+        "Legal"
+      ]
+    }
+  ],
+  "defaultBw": "ADVANCE 6575",
+  "defaultColor": "Canon - C5560"
+}

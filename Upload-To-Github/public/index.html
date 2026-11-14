@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>Copycat Copiers - Instant Web & Mobile Printing</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Offline PDF.js and QRCode libraries -->
+  <script src="vendor/pdf.min.js"></script>
+  <script src="vendor/qrcode.min.js"></script>
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="/" class="brand-wrapper">
+        <div class="brand-logo-badge">
+          <!-- Google Colors Icon -->
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+            <path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z" fill="#4285F4"/>
+          </svg>
+        </div>
+        <div class="brand-info">
+          <h1>
+            Copycat Copiers
+            <span class="google-badge-inline">
+              <svg width="12" height="12" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+              </svg>
+              Verified Shop
+            </span>
+          </h1>
+          <p>Instant Self-Service Web & Mobile Printing</p>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <button id="btnOpenRates" class="btn btn-outline btn-sm header-action-btn" title="View Rate Card">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <span class="btn-text-desktop">Rate Card</span>
+          <span class="btn-text-mobile">Rates</span>
+        </button>
+        <button id="btnOpenTrack" class="btn btn-outline btn-sm header-action-btn" title="Track Live Order">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <span class="btn-text-desktop">Track Order</span>
+          <span class="btn-text-mobile">Track</span>
+        </button>
+        <a href="admin.html" class="btn btn-primary btn-sm header-action-btn" title="Shop Manager & Printer Spooler">
+          <span class="btn-text-desktop">Admin Portal</span>
+          <span class="btn-text-mobile">Admin</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    
+    <!-- Welcome Hero Banner -->
+    <section class="welcome-hero">
+      <div class="hero-text">
+        <h2>Upload & Print In 3 Easy Steps</h2>
+        <p>Scan our shop QR code, select your paper size & print settings, and your documents will be printed directly on our high-speed commercial copiers!</p>
+        <div class="hero-badges">
+          <span class="hero-pill">⚡ No File Size Limit</span>
+          <span class="hero-pill">📄 PDF, JPG, PNG Supported</span>
+          <span class="hero-pill">🖨️ High-Speed A4 & A3 Copiers</span>
+          <span class="hero-pill">👁️ Visual Page Picker</span>
+        </div>
+      </div>
+      <div class="hero-quick-scan">
+        <a href="qr-stand.html" target="_blank" class="btn btn-outline btn-sm" style="background: white;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          View Counter Standee QR
+        </a>
+      </div>
+    </section>
+
+    <!-- STEP 1: Upload & Configure -->
+    <section id="stepConfigure" class="step-section">
+      <div class="app-grid">
+        
+        <!-- Left Column: Upload Box + Document Configuration Cards -->
+        <div class="documents-column">
+          
+          <!-- Dropzone -->
+          <div id="dropzone" class="upload-card">
+            <input type="file" id="fileInput" multiple accept=".pdf, .jpg, .jpeg, .png, image/jpeg, image/png, application/pdf" style="display: none;">
+            <div class="upload-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+            </div>
+            <h3>
+              <span class="desktop-only-text">Drop your files here, or <span style="color: var(--primary); text-decoration: underline;">browse</span></span>
+              <span class="mobile-only-text">Tap to Upload Documents or Photos</span>
+            </h3>
+            <p>Upload PDF, JPG, or PNG files with no file size limits</p>
+            <div class="upload-limits">
+              <span>PDF</span> • <span>JPG</span> • <span>PNG</span> • <span>No Size Limit</span>
+            </div>
+            <div id="uploadSpinner" style="display: none; margin-top: 1rem; color: var(--primary); font-weight: 600;">
+              Uploading and analyzing pages...
+            </div>
+          </div>
+
+          <!-- Batch Toolbar (Apply to all documents) -->
+          <div id="batchToolbar" class="batch-toolbar" style="display: none;">
+            <label class="apply-all-checkbox-label">
+              <input type="checkbox" id="chkApplyAll">
+              <span>Apply settings to all uploaded documents</span>
+            </label>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">
+              When checked, changing paper, color, duplex, or copies updates all files automatically.
+            </span>
+          </div>
+
+          <!-- Uploaded Documents Container -->
+          <div id="documentsList" class="documents-list-container">
+            <!-- Dynamically populated document cards will render here -->
+          </div>
+
+        </div>
+
+        <!-- Right Column: Live Sticky Summary & Proceed Button -->
+        <div class="summary-column">
+          <div class="order-summary-sidebar">
+            <div class="summary-header">
+              <h3>Order Summary</h3>
+              <span id="summaryDocCountBadge" class="doc-badge-pages">0 Files</span>
+            </div>
+
+            <div id="summaryItemsList" class="summary-items-list">
+              <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center; padding: 1.5rem 0;">
+                No files uploaded yet. Drag & drop your PDF or photos on the left!
+              </p>
+            </div>
+
+            <div class="summary-totals">
+              <div class="total-row">
+                <span>Total Pages to Print:</span>
+                <strong id="summaryTotalPages">0</strong>
+              </div>
+              <div class="total-row">
+                <span>Physical Paper Sheets:</span>
+                <strong id="summaryTotalSheets">0</strong>
+              </div>
+              <div class="total-row grand-total">
+                <span>Estimated Total:</span>
+                <span class="grand-price" id="summaryGrandTotal">₹0.00</span>
+              </div>
+            </div>
+
+            <button id="btnProceedToPayment" class="btn btn-primary btn-lg" style="width: 100%;" disabled>
+              Proceed to Payment
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- STEP 2: Checkout & Payment Section (Hidden by default) -->
+    <section id="stepPayment" class="step-section" style="display: none;">
+      <div class="checkout-step-container">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+          <h2 style="font-size: 1.4rem; font-weight: 700;">Customer Details & Payment</h2>
+          <button id="btnBackToFiles" class="btn btn-outline btn-sm">
+            ← Back to Documents
+          </button>
+        </div>
+
+        <!-- Customer Form (Responsive Grid) -->
+        <div class="customer-form-grid" style="margin-bottom: 1.5rem;">
+          <div>
+            <label style="display: block; font-size: 0.82rem; font-weight: 700; color: #5f6368; margin-bottom: 0.4rem; text-transform: uppercase;">
+              Your Name *
+            </label>
+            <input type="text" id="custName" placeholder="e.g. Rahul Sharma" class="mobile-form-input">
+          </div>
+          <div>
+            <label style="display: block; font-size: 0.82rem; font-weight: 700; color: #5f6368; margin-bottom: 0.4rem; text-transform: uppercase;">
+              Mobile Number (For Order Tracking) *
+            </label>
+            <input type="tel" id="custPhone" placeholder="e.g. 9876543210" class="mobile-form-input">
+          </div>
+        </div>
+
+        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.85rem;">Select Payment Method</h3>
+
+        <!-- Payment Option 1: Online Payment (UPI) -->
+        <div id="optPaymentOnline" class="payment-method-card selected">
+          <input type="radio" name="paymentOption" value="online" checked style="accent-color: var(--primary); margin-top: 4px;">
+          <div class="payment-icon-box">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4285F4" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          </div>
+          <div style="flex: 1;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.25rem;">
+              <strong style="font-size: 1rem; color: #202124;">Online Payment (Instant UPI)</strong>
+              <span class="status-badge" style="background: #e6f4ea; color: #137333;">Recommended</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">
+              Pay using Google Pay, PhonePe, Paytm, or any UPI app. Instant receipt & priority printing.
+            </p>
+
+            <!-- Dynamic UPI QR Display Box -->
+            <div id="upiQrSection" class="upi-qr-display-box">
+              <p style="font-size: 0.85rem; font-weight: 600; color: #3c4043; margin-bottom: 0.5rem;">
+                Scan with any UPI App to Pay <span id="upiAmountTag" style="color: #188038; font-weight: 800;">₹0.00</span>
+              </p>
+              <div class="upi-qr-frame" id="upiQrCodeContainer"></div>
+              <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.35rem;">
+                UPI ID: <strong id="upiIdDisplay">paytm.s45iush@pty</strong>
+              </div>
+
+              <!-- Direct UPI Deep Link for Mobile Phone Users -->
+              <div class="mobile-upi-pay-wrapper" style="margin-top: 0.85rem;">
+                <a id="btnDirectUpiPay" href="#" class="btn btn-primary btn-md mobile-direct-upi-btn" style="width: 100%; text-decoration: none; font-size: 0.95rem; font-weight: 700; padding: 0.75rem 1rem;">
+                  ⚡ Pay via UPI App (GPay / PhonePe / Paytm)
+                </a>
+              </div>
+
+              <div style="margin-top: 0.75rem;">
+                <button type="button" id="btnSimulateUpiSuccess" class="btn btn-outline btn-sm" style="color: #188038; border-color: #34a853; background: white; width: 100%;">
+                  ✓ Simulate Instant UPI Payment Success
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Option 2: Pay at Shop (Cash on Counter) -->
+        <div id="optPaymentShop" class="payment-method-card">
+          <input type="radio" name="paymentOption" value="shop" style="accent-color: var(--primary); margin-top: 4px;">
+          <div class="payment-icon-box">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#5f6368" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 6v12"/></svg>
+          </div>
+          <div style="flex: 1;">
+            <strong style="font-size: 1rem; color: #202124;">Pay at Shop Counter (Cash / UPI at Pickup)</strong>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">
+              Your order is sent to the admin for printing approval. Settle the amount in cash or card when collecting prints.
+            </p>
+          </div>
+        </div>
+
+        <!-- Final Order Total Summary Box (Responsive) -->
+        <div class="checkout-submit-bar" style="background: #f8fafd; border: 1px solid #d2e3fc; border-radius: var(--radius-md); padding: 1.15rem 1.25rem; margin: 1.5rem 0;">
+          <div class="checkout-submit-info">
+            <div style="font-size: 0.85rem; color: var(--text-muted);">Payable Amount</div>
+            <div style="font-size: 1.5rem; font-weight: 800; color: #188038;" id="checkoutTotalDisplay">₹0.00</div>
+          </div>
+          <button id="btnSubmitOrder" class="btn btn-primary btn-lg checkout-submit-btn">
+            Submit & Start Printing
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Mobile Sticky Floating Checkout Bar (Visible on mobile when files are uploaded) -->
+    <div id="mobileBottomBar" class="mobile-bottom-bar" style="display: none;">
+      <div class="mobile-bottom-info">
+        <div class="mobile-bottom-price" id="mobileBottomPrice">₹0.00</div>
+        <div class="mobile-bottom-sheets" id="mobileBottomSheets">0 files • 0 sheets</div>
+      </div>
+      <button id="btnMobileProceed" class="btn btn-primary mobile-bottom-proceed-btn">
+        Proceed to Pay →
+      </button>
+    </div>
+
+  </main>
+
+  <!-- MODAL 1: Visual Page Picker Modal -->
+  <div id="visualPickerModal" class="modal-overlay">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4285F4" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Visual Page Selector: <span id="visualModalDocName" style="font-weight: 500; font-size: 1rem; color: var(--text-muted); margin-left: 5px;"></span>
+        </h3>
+        <button class="modal-close-btn" id="btnCloseVisualPicker">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="page-picker-toolbar">
+          <div style="font-size: 0.9rem; font-weight: 600; color: #202124;">
+            Click on pages to select/unselect for printing:
+          </div>
+          <div class="page-picker-actions">
+            <button id="btnVisualSelectAll" class="btn btn-outline btn-sm">Select All</button>
+            <button id="btnVisualDeselectAll" class="btn btn-outline btn-sm">Clear All</button>
+            <button id="btnVisualSelectOdd" class="btn btn-outline btn-sm">Odd Pages</button>
+            <button id="btnVisualSelectEven" class="btn btn-outline btn-sm">Even Pages</button>
+          </div>
+        </div>
+
+        <div id="visualPagesGrid" class="pages-grid">
+          <!-- Thumbnail cards rendered via PDF.js or Image -->
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <div style="font-weight: 600; font-size: 0.95rem; color: #1a73e8;">
+          <span id="visualSelectedCount">0</span> of <span id="visualTotalCount">0</span> pages selected
+        </div>
+        <button id="btnApplyVisualSelection" class="btn btn-primary">
+          Apply Selection & Update Price
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: Rate Card Modal -->
+  <div id="ratesModal" class="modal-overlay">
+    <div class="modal-dialog" style="max-width: 600px;">
+      <div class="modal-header">
+        <h3>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#34A853" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          Copycat Copiers Rate Card
+        </h3>
+        <button class="modal-close-btn" id="btnCloseRatesModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+          Transparent, standard copy shop pricing for A4 and A3 printing across single and both-side (duplex) options:
+        </p>
+        
+        <table class="rate-table">
+          <thead>
+            <tr>
+              <th>Paper Spec</th>
+              <th>Print Mode</th>
+              <th>Side Mode</th>
+              <th>Rate</th>
+            </tr>
+          </thead>
+          <tbody id="ratesTableBody">
+            <!-- Dynamically populated from settings -->
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer" style="justify-content: flex-end;">
+        <button class="btn btn-primary btn-sm" id="btnDismissRates">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: Order Lookup Modal -->
+  <div id="trackModal" class="modal-overlay">
+    <div class="modal-dialog" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3>Track Your Print Order</h3>
+        <button class="modal-close-btn" id="btnCloseTrackModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+          Enter your Order ID (e.g. <code>CC-1001</code>) or your 10-digit mobile number to check real-time printing progress:
+        </p>
+        <div style="display: flex; gap: 0.5rem;">
+          <input type="text" id="trackQueryInput" placeholder="Order ID or Phone Number" style="flex: 1; padding: 0.65rem 0.85rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); font-size: 0.95rem;">
+          <button id="btnSearchTrack" class="btn btn-primary">Track</button>
+        </div>
+        <div id="trackSearchResults" style="margin-top: 1rem;"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

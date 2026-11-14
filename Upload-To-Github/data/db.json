@@ -1,0 +1,59 @@
+{
+  "orders": [
+    {
+      "id": "CC-1023",
+      "createdAt": "2026-11-14T12:28:22.454Z",
+      "customer": {
+        "name": "Heysh",
+        "phone": "9434834615"
+      },
+      "paymentMethod": "shop",
+      "paymentStatus": "pending_at_shop",
+      "paymentRef": "Pay at Shop Counter",
+      "status": "pending_approval",
+      "statusTimeline": [
+        {
+          "status": "order_placed",
+          "label": "Order Placed & Files Uploaded",
+          "time": "2026-11-14T12:28:22.454Z",
+          "note": "Payment: Pay at Shop"
+        }
+      ],
+      "documents": [
+        {
+          "id": "ed98a736-f9fe-48d4-8b4a-610ed1961872",
+          "originalName": "IMG-20260511-WA0003(2)~2.jpg",
+          "filePath": "H:\\Antigravity\\New App\\uploads\\1794659261915_b85edb65_IMG-20260511-WA0003_2__2.jpg",
+          "mimeType": "image/jpeg",
+          "fileSize": 65265,
+          "paperType": "A4",
+          "colorMode": "bw",
+          "sides": "single",
+          "pageRangeMode": "all",
+          "customRangeText": "",
+          "selectedPages": [
+            1
+          ],
+          "totalDocumentPages": 1,
+          "copies": 1,
+          "assignedPrinter": "ADVANCE 6575",
+          "pricing": {
+            "pageCount": 1,
+            "sheets": 1,
+            "copies": 1,
+            "unitPrice": 2,
+            "subtotal": 2
+          }
+        }
+      ],
+      "summary": {
+        "documentCount": 1,
+        "totalPages": 1,
+        "totalSheets": 1,
+        "totalAmount": 2
+      },
+      "printResults": []
+    }
+  ],
+  "orderCounter": 1023
+}
